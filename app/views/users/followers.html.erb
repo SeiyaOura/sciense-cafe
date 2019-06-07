@@ -1,0 +1,48 @@
+<div class="row">
+  <div class="col-sm-4">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title"><%= @user.name %></h3>
+      </div>
+      <div class="card-body">
+        <% if @user.image? %>
+        <img class="rounded img-fluid" src="<%= @user.image %>" alt="">
+        <% else %>
+         <%= image_tag "unknown_user_415_original.jpg", class:"rounded img-fluid" %>
+        <% end %>
+      </div>
+    </div>
+     <table class="table">
+      <tr>
+        <th>field:</th>
+        <td><%= @user.field %></td>
+      </tr>
+      <tr>
+        <th>position:</th>
+        <td><%= @user.position %></td>
+      </tr>
+      <tr>
+        <th>profile:</th>
+        <td><%= @user.profile %></td>
+      </tr>
+    </table>
+    <%= render 'relationships/follow_button', user: @user %>
+    <% if current_user == @user %>
+      <%= link_to 'New Post', new_paper_path, class: 'btn btn-info btn-block' %>
+      <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-info btn-block' %>
+    <% end %>
+    <% if current_user == @user%>
+      <%= link_to 'Unsubscribe', @user, method: :delete, data: { confirm: '本当に退会してよろしいですか？' } %>
+    <% end %>
+  </div>
+  
+  <div class="col-sm-8">
+    <ul class="nav nav-tabs nav-justified mb-3">
+      <li class="nav-item"><a href="<%= user_path(@user) %>" class="nav-link <%= 'active' if current_page?(user_path(@user)) %>">Papers<span class="badge badge-secondary"><%= @count_microposts %></span></a></li>
+      <li class="nav-item"><a href="<%= followings_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(followings_user_path(@user)) %>">Followings<span class="badge badge-secondary"><%= @count_followings %></span></a></li>
+      <li class="nav-item"><a href="<%= followers_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(followers_user_path(@user)) %>">Followers<span class="badge badge-secondary"><%= @count_followers %></span></a></li>
+      <li class="nav-item"><a href="<%= likes_user_path(@user) %>" class="nav-link <%= 'active' if current_page?(followers_user_path(@user)) %>">Likes<span class="badge badge-secondary"><%= @count_likes %></span></a></li>
+    </ul>
+      <%= render 'users/users', users: @followers %>
+  </div>
+</div>

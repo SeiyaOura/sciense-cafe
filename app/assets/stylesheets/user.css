@@ -1,0 +1,10 @@
+#userInfo th {
+    width: 25%;
+}
+
+
+#userInfo td {
+    width: 75%;
+    word-break: break-word;
+    word-wrap: break-word;
+}

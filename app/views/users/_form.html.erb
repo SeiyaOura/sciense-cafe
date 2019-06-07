@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-sm-6 offset-sm-3">
+
+    <%= form_with(model: @user, local: true) do |f| %>
+      <%= render 'layouts/error_messages', model: f.object %>
+      
+      <div class="form-group">
+        <%= f.label :name, 'Name' %>
+        <%= f.text_field :name, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :email, 'Email' %>
+        <%= f.email_field :email, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password, 'Password' %>
+        <%= f.password_field :password, class: 'form-control' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :password_confirmation, 'Confirmation' %>
+        <%= f.password_field :password_confirmation, class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :profile, 'Profile' %>
+        <%= f.text_area :profile, class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :field, 'Field' %>
+        <%= f.select :field, [["Biology","Biology"], ["Medicine","Medicine"],["Pharmacy","Pharmacy"],["Other","Other"]], class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :position, 'Position' %>
+        <%= f.select :position, [["Undergraduate","Undergraduate"], ["Graduate","Graduate"],["Researcher","Researcher"], ["Other","Other"]], class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :publication, 'Publication' %>
+        <%= f.text_field :publication, class: 'form-control' %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :image, 'Image' %>
+        <%= f.file_field :image, class: 'form-control' %>
+      </div>
+      
+      <%= f.submit "#{btn_name}", class: 'btn btn-primary btn-block' %>
+    
+    <% end %>
+  </div>
+</div>

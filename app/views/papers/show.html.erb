@@ -1,0 +1,24 @@
+<div class="row">
+  <aside class="col-sm-2">
+    <img class="mr-2 rounded" src="<%= @paper.user.image.thumb200 %>" alt="">
+    <%= link_to @paper.user.name, user_path(@paper.user) %> <span class="text-muted">
+  </aside>
+  <div class="offset-sm-1 col-sm-9">
+    <div class="card">
+        <div class="card-header">
+            <strong><%= @paper.title %></strong><br>
+            <%= @paper.author %><br>
+            <%= @paper.bibliography %>
+        </div>
+        <div class="card-body">
+            <%= @paper.comment %><br>
+            <%= link_to @paper.link, @paper.link %><br>
+            <% if current_user == @paper.user %>
+              <%= link_to "Delete", @paper, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+              <%= link_to "Edit", edit_paper_path(@paper), class: 'btn btn-warning btn-sm' %>
+            <% end %>
+            <%= render 'favorites/favorite_button', paper: @paper %>
+        </div>
+    </div>
+  </div>
+</div>

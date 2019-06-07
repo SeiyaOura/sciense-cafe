@@ -1,0 +1,19 @@
+<ul class="list-unstyled">
+  <% papers.each do |paper| %>
+    <li class="media mb-3">
+      <div class="media-body">
+        <div>
+          <h2><%= paper.title %></h2>
+          <p><%= paper.comment.truncate(100) %></p>
+          <%= link_to "detail", paper, class: 'btn btn-info btn-sm' %>
+          <% if current_user == paper.user %>
+            <%= link_to "Delete", paper, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+            <%= link_to "Edit", edit_paper_path(paper), class: 'btn btn-warning btn-sm' %>
+            <%= render 'favorites/favorite_button', paper: paper %>
+          <% end %>
+        </div>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate papers %>
+</ul>
