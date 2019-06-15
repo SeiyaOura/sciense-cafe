@@ -1,1 +1,27 @@
+<h2>User search</h2>
+
+<%= search_form_for @search do |f| %>
+  <strong>Search option</strong><br>
+  <%= f.condition_fields do |c| %>
+    <%= c.attribute_fields do |a| %>
+      <%= a.attribute_select %>
+    <% end %>
+    <%= c.predicate_select only: [:eq, :cont], compounds: false %>
+    <%= c.value_fields do |v| %>
+      <%= v.search_field :value %>
+    <% end %>
+  <br>
+  <% end %>
+  <%= f.combinator_select %>
+  <%= f.submit %><br>
+  <strong>Sort option</strong><br>
+  <%= f.sort_fields do |s| %>
+    <%= s.sort_select %>
+  <% end %>
+  <%= f.submit "Sort"%>
+<% end %>
+
+<%= link_to 'Finish Searching', root_path %>
+<h2>Results</h2>
 <%= render 'users', users: @users %>
+<%= link_to 'Finish Searching', root_path %>

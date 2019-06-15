@@ -7,8 +7,11 @@
           <%= link_to paper.user.name, user_path(paper.user) %> <span class="text-muted">posted at <%= paper.created_at %></span>
         </div>
         <div>
-          <h2><%= paper.title %></h2>
-          <p><%= paper.comment.truncate(100) %></p>
+          <strong><%= paper.title %></strong><br>
+          <p>
+            <%= paper.comment.truncate(100) %><br>
+            comments: <%= paper.reviews.count %>
+          </p>
           <%= link_to "detail", paper, class: 'btn btn-info btn-sm' %>
           <% if current_user == paper.user %>
             <%= link_to "Delete", paper, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>

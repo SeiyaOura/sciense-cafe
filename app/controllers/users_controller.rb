@@ -2,7 +2,10 @@ class UsersController < ApplicationController
     before_action :require_user_logged_in, only: [:index, :show, :edit, :destroy, :followings, :followers, :likes]
     
   def index
-    @users = User.order(id: :desc).page(params[:page]).per(25)
+    @search = User.ransack(params[:q])
+    3.times { |i| @search.build_condition unless @search.conditions[i] }
+    @search.build_sort if @search.sorts.empty?
+    @users = @search.result.page(params[:page]).per(25)
   end
   
   def show

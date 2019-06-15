@@ -63,4 +63,16 @@ class User < ApplicationRecord
     self.likes.include?(others_post)
   end
   
+  #Ransack
+  # 検索対象はname profile field positionのみ
+  def self.ransackable_attributes(auth_object = nil)
+    %w(name profile field position)
+  end
+  # 並べ替え対象はcreated a nametのみ
+  def self.ransortable_attributes(auth_object = nil)
+    %w(created_at name)
+  end
+  
+  has_many :reviews
+  
 end

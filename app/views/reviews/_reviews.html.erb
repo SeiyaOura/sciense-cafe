@@ -1,0 +1,19 @@
+<ul class="list-unstyled">
+  <% reviews.each do |review| %>
+    <li class="media mb-3">
+      <img class="mr-2 rounded" src="<%= review.user.image.thumb100 %>" alt="">
+      <div class="media-body">
+        <div>
+          <%= link_to review.user.name, user_path(review.user) %> <span class="text-muted">reviewed at <%= review.created_at %></span>
+        </div>
+        <div>
+          <p><%= review.comment %></p>
+          <% if current_user == review.user %>
+            <%= link_to "Delete", review, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+          <% end %>
+        </div>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate reviews %>
+</ul>

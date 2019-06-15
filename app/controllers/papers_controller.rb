@@ -3,11 +3,15 @@ class PapersController < ApplicationController
   before_action :correct_user, only: [:destroy, :edit, :update]
   
   def index
-    @papers = Paper.order(id: :desc).page(params[:page]).per(25)
+    @search = Paper.ransack(params[:q])
+    2.times { |i| @search.build_condition unless @search.conditions[i] }
+    @search.build_sort if @search.sorts.empty?
+    @papers = @search.result.page(params[:page]).per(25)
   end
   
   def show
     @paper = Paper.find(params[:id])
+    @reviews = @paper.reviews.order(id: :desc).page(params[:page]).per(25)
   end
   
   def new

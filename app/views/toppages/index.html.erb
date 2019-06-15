@@ -1,11 +1,11 @@
 <% if logged_in? %>
-    <aside class="col-sm-4">
-      <p>ログイン完了ユーザ: <%= current_user.name %></p>
-    </aside>
-    <div class="col-sm-8">
-      <%= render 'papers/papers_userInfo', papers: @papers %>
-    </div>
-  </div>
+  navbarに検索窓を置く<br>
+  Ransackerの使い方ーcommentの長さとかでソートできる?ー<br>
+  Recommendedの実装方法を考えるー<br>
+  <h2>Recommended papers</h2>
+  <%= link_to 'Search papers', papers_path, class: 'btn btn-lg btn-primary' %>
+  <h2>Recommended users</h2>
+  <%= link_to 'Search users', users_path, class: 'btn btn-lg btn-primary' %>
 <% else %>
   <div class="center jumbotron">
     <div class="text-center">

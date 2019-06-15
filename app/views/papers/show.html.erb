@@ -8,16 +8,26 @@
         <div class="card-header">
             <strong><%= @paper.title %></strong><br>
             <%= @paper.author %><br>
-            <%= @paper.bibliography %>
-        </div>
-        <div class="card-body">
-            <%= @paper.comment %><br>
-            <%= link_to @paper.link, @paper.link %><br>
+            <%= @paper.bibliography %> 
             <% if current_user == @paper.user %>
               <%= link_to "Delete", @paper, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
               <%= link_to "Edit", edit_paper_path(@paper), class: 'btn btn-warning btn-sm' %>
             <% end %>
+        </div>
+        <div class="card-body">
+            <%= @paper.comment %><br>
+            <%= link_to @paper.link, @paper.link %><br>
+            
             <%= render 'favorites/favorite_button', paper: @paper %>
+
+            <%= render 'reviews/reviews', reviews: @reviews %>
+            
+            <%= form_for(@paper.reviews.build) do |f| %>
+                <%= f.text_area :comment, class:"form-control", placeholder:'Any comments', rows: 4 %>
+                <%= hidden_field_tag :paper_id, @paper.id %>
+                <%= f.submit "Comment", class: 'btn btn-xs btn-success' %>
+            <% end %>
+
         </div>
     </div>
   </div>
