@@ -14,7 +14,11 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :papers
+  resources :papers do
+    collection do
+      post :search
+    end
+  end
   
   resources :relationships, only: [:create, :destroy]
   

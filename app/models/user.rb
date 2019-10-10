@@ -73,6 +73,30 @@ class User < ApplicationRecord
     %w(created_at name)
   end
   
+  # 自作の検索関数 name profile fieldが検索対象
+  # 検索対象を1つのカラムにしたい場合はcolmunとして引数をとればできそう
+  def self.search(keyword, sort)
+    if keyword == nil
+      ps = User.all
+    else
+      ps = User.where(['name LIKE ? OR profile LIKE ? OR field LIKE ?', "%#{keyword}%", "%#{keyword}%", "%#{keyword}%"])
+    end
+    
+    case sort
+    when "Most Recent" then
+      return ps.order("id DESC")
+    when "Most Popular" then
+      hs = ps.map {|p|                                           
+       [p.id, p.favorites.count]
+      }.sort{|a,b| b[1]<=>a[1]}.to_h
+      return User.find(hs.keys)
+    else
+      #Most Recentで返す
+      return ps.order("id DESC")
+    end
+    
+  end
+  
   has_many :reviews
   
 end

@@ -1,25 +1,20 @@
-<h2>User search</h2>
+<div class="text-center">
+  <h2>User search</h2>
+</div>
 
-<%= search_form_for @search do |f| %>
-  <strong>Search option</strong><br>
-  <%= f.condition_fields do |c| %>
-    <%= c.attribute_fields do |a| %>
-      <%= a.attribute_select %>
+<div class="row">
+  <div class="col-sm-10 offset-sm-1">
+    <!--method: getにしないとcreateにとんでしまう-->
+     <%= form_with(url: users_path, local: true, method: :get) do |f| %>
+      <!--value: @keywordをいれておくことで、検索後に検索窓にkeywordを残すことができる-->
+      <%= f.text_field :keyword, class: "col-sm-10", value: @keyword %>
+      <%= f.submit 'Search', class: "btn btn-primary btn-xs" %>
+      <br> Sort by:
+      <%= f.select :sort, [["Most Recent","Most Recent"], ["Most Popular","Most Popular"]], 
+      :include_blank => true, :selected => @sort, id:'dinamic_sort' %>
     <% end %>
-    <%= c.predicate_select only: [:eq, :cont], compounds: false %>
-    <%= c.value_fields do |v| %>
-      <%= v.search_field :value %>
-    <% end %>
-  <br>
-  <% end %>
-  <%= f.combinator_select %>
-  <%= f.submit %><br>
-  <strong>Sort option</strong><br>
-  <%= f.sort_fields do |s| %>
-    <%= s.sort_select %>
-  <% end %>
-  <%= f.submit "Sort"%>
-<% end %>
+  </div>
+</div>
 
 <%= link_to 'Finish Searching', root_path %>
 <h2>Results</h2>

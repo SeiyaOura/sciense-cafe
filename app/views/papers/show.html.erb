@@ -1,6 +1,11 @@
 <div class="row">
   <aside class="col-sm-2">
-    <img class="mr-2 rounded" src="<%= @paper.user.image.thumb200 %>" alt="">
+    
+    <% if @paper.user.image? %>
+      <img class="mr-2 rounded" src="<%= @paper.user.image.thumb200 %>" alt="">
+    <% else %>
+     <%= image_tag "unknown_user_200.jpg", class:"mr-2 rounded" %>
+    <% end %>
     <%= link_to @paper.user.name, user_path(@paper.user) %> <span class="text-muted">
   </aside>
   <div class="offset-sm-1 col-sm-9">

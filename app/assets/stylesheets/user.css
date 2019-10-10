@@ -8,3 +8,11 @@
     word-break: break-word;
     word-wrap: break-word;
 }
+
+#linklist{
+    margin-right: 20px;
+}
+
+.nav-tabs .nav-link.active {
+    background-color: #ddf;
+}

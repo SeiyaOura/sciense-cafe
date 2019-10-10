@@ -10,17 +10,43 @@ class Paper < ApplicationRecord
   
   private
   
-  #ransacker定義したいがよくわからない(質問する)
-  ransacker :comment_length
-  
-  #Ransack
-  # 検索対象はtitle author bibliography commentのみ
+  #Ransack用 (検索機能はransackで実装しようとしていたが自作に変更)
+  #検索対象はtitle author bibliography commentのみ
   def self.ransackable_attributes(auth_object = nil)
     %w(title author bibliography comment)
   end
   # 並べ替え対象はcreated atのみ
   def self.ransortable_attributes(auth_object = nil)
-    %w(created_at comment_length)
+    %w(created_at)
+  end
+  
+  # 自作の検索関数 title authoe bibliograpy commentが検索対象
+  # 検索対象を1つのカラムにしたい場合はcolmunとして引数をとればできそう
+  def self.search(keyword, sort)
+    if keyword == nil
+      ps = Paper.all
+    else
+      ps = Paper.where(['title LIKE ? OR author LIKE ? OR bibliography LIKE ? OR comment LIKE?', "%#{keyword}%", "%#{keyword}%", "%#{keyword}%", "%#{keyword}%"])
+    end
+    
+    case sort
+    when "Most Recent" then
+      return ps.order("id DESC")
+    when "Most Popular" then
+      hs = ps.map {|p|                                           
+       [p.id, p.favorites.count]
+      }.sort{|a,b| b[1]<=>a[1]}.to_h
+      return Paper.find(hs.keys)
+    when "Most Discussed" then
+      hs = ps.map {|p|                                           
+       [p.id, p.reviews.count]
+      }.sort{|a,b| b[1]<=>a[1]}.to_h
+      return Paper.find(hs.keys)
+    else
+      #Most Recentで返す
+      return ps.order("id DESC")
+    end
+    
   end
   
   has_many :reviews

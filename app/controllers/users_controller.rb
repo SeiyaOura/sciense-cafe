@@ -2,10 +2,21 @@ class UsersController < ApplicationController
     before_action :require_user_logged_in, only: [:index, :show, :edit, :destroy, :followings, :followers, :likes]
     
   def index
-    @search = User.ransack(params[:q])
-    3.times { |i| @search.build_condition unless @search.conditions[i] }
-    @search.build_sort if @search.sorts.empty?
-    @users = @search.result.page(params[:page]).per(25)
+    case params[:sort]
+    when "Most Recent" then
+      @users = User.search(params[:keyword], params[:sort]).page(params[:page]).per(25)
+      @keyword = params[:keyword]
+      @sort = params[:sort]
+    when "Most Popular" then
+      @users = Kaminari.paginate_array(User.search(params[:keyword], params[:sort])).page(params[:page]).per(25)
+      @keyword = params[:keyword]
+      @sort = params[:sort]
+    else
+      #Most Recent
+      @users = User.search(params[:keyword], params[:sort]).page(params[:page]).per(25)
+      @keyword = params[:keyword]
+      @sort = params[:sort]
+    end
   end
   
   def show

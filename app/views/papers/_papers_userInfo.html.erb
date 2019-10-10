@@ -1,7 +1,11 @@
-<ul class="list-unstyled">
+<ul class="list-unstyled" id="search_result">
   <% papers.each do |paper| %>
     <li class="media mb-3">
-      <img class="mr-2 rounded" src="<%= paper.user.image.thumb100 %>" alt="">
+      <% if paper.user.image? %>
+        <img class="mr-2 rounded" src="<%= paper.user.image.thumb100 %>" alt="">
+      <% else %>
+       <%= image_tag "unknown_user_100.jpg", class:"mr-2 rounded" %>
+      <% end %>
       <div class="media-body">
         <div>
           <%= link_to paper.user.name, user_path(paper.user) %> <span class="text-muted">posted at <%= paper.created_at %></span>
@@ -10,13 +14,11 @@
           <strong><%= paper.title %></strong><br>
           <p>
             <%= paper.comment.truncate(100) %><br>
-            comments: <%= paper.reviews.count %>
+            <!-- linklistは自作のstylesheets margin-right: 20px; -->
+            <i class="fas fa-info fa-fw"></i><%= link_to "Detail", paper_path(paper), id: "linklist"%>
+            <i class="far fa-comment fa-fw"></i><span id="linklist">Comments (<%= paper.reviews.count %>)</span>
+            <i class="fas fa-heart fa-fw"></i><span id="linklist">Likes (<%= paper.favorites.count %>)</span>
           </p>
-          <%= link_to "detail", paper, class: 'btn btn-info btn-sm' %>
-          <% if current_user == paper.user %>
-            <%= link_to "Delete", paper, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
-            <%= link_to "Edit", edit_paper_path(paper), class: 'btn btn-warning btn-sm' %>
-          <% end %>
         </div>
       </div>
     </li>

@@ -9,7 +9,7 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-    paper = Paper.find(params[:micropost_id])
+    paper = Paper.find(params[:paper_id])
     current_user.unlike(paper)
     flash[:success] = 'ポストのお気に入りを解除しました。'
     redirect_back(fallback_location: root_path)

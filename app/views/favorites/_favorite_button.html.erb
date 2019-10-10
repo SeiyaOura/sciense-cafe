@@ -9,12 +9,12 @@
   <% if current_user.like?(paper) %>
     <%= form_with(model: current_user.favorites.find_by(paper_id: paper.id), local: true, method: :delete) do |f| %>
       <%= hidden_field_tag :paper_id, paper.id %>
-      <%= f.submit 'Unlike', class: 'btn btn-danger btn-sm' %>
+      <i class="fas fa-heart-broken"></i> <%= f.submit 'Unlike' %>
     <% end %>
   <% else %>
     <%= form_with(model: current_user.favorites.build, local: true) do |f| %>
       <%= hidden_field_tag :paper_id, paper.id %>
-      <%= f.submit 'Like', class: 'btn btn-primary btn-sm' %>
+      <i class="fas fa-heart"></i> <%= f.submit 'Like' %>
     <% end %>
   <% end %>
 <% end %>

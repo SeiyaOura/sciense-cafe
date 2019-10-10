@@ -3,11 +3,22 @@ class PapersController < ApplicationController
   before_action :correct_user, only: [:destroy, :edit, :update]
   
   def index
-    @search = Paper.ransack(params[:q])
-    2.times { |i| @search.build_condition unless @search.conditions[i] }
-    @search.build_sort if @search.sorts.empty?
-    @papers = @search.result.page(params[:page]).per(25)
-  end
+    case params[:sort]
+    when "Most Recent" then
+      @papers = Paper.search(params[:keyword], params[:sort]).page(params[:page]).per(25)
+      @keyword = params[:keyword]
+      @sort = params[:sort]
+    when "Most Popular", "Most Discussed" then
+      @papers = Kaminari.paginate_array(Paper.search(params[:keyword], params[:sort])).page(params[:page]).per(25)
+      @keyword = params[:keyword]
+      @sort = params[:sort]
+    else
+      #Most Recent
+      @papers = Paper.search(params[:keyword], params[:sort]).page(params[:page]).per(25)
+      @keyword = params[:keyword]
+      @sort = params[:sort]
+    end
+ end
   
   def show
     @paper = Paper.find(params[:id])
